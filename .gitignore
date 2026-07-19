@@ -18,8 +18,13 @@ htmlcov/
 harborvision.db
 data/generated/*
 !data/generated/.gitkeep
+data/raw/
+data/downloads/
+model-cache/
+models/cache/
 node_modules/
 playwright-report/
 test-results/
+.playwright/
 .DS_Store
 *.zip

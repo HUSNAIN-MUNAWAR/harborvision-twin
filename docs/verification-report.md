@@ -4,7 +4,7 @@ Verification date: **2026-07-19**. Application timestamps are stored in UTC.
 
 ## Release scope
 
-This launch verification covers the public open-source repository preparation pass: documentation accuracy, local FastAPI startup, deterministic demo seed data, migrations, API smoke tests, backend tests, static analysis, frontend syntax, dependency consistency, and repository hygiene.
+This launch verification covers the public open-source repository preparation pass plus the NGA World Port Index public-dataset integration: documentation accuracy, local FastAPI startup, deterministic demo seed data, WPI sample preparation, migrations, API smoke tests, backend tests, static analysis, frontend syntax, dependency consistency, screenshot refresh, and repository hygiene.
 
 ## Verification environment
 
@@ -24,20 +24,23 @@ This launch verification covers the public open-source repository preparation pa
 | Category | Command | Result | Summary |
 |---|---|---|---|
 | Dependency install | `py -m pip install -r requirements-dev.txt` | **Passed** | Python dependencies installed or already satisfied |
+| Public dataset download | `py scripts/download_public_dataset.py` | **Passed** | 120 WPI records across 54 country codes written to `data/sample/world-port-index-sample.csv` |
 | Frontend syntax | `node --check apps/web/app.js` | **Passed** | No JavaScript syntax errors |
 | Python lint | `py -m ruff check apps tests scripts infrastructure/migrations/versions` | **Passed** | Zero findings after import-order fix |
-| Python formatting | `py -m ruff format --check apps tests scripts infrastructure/migrations/versions` | **Passed** | 28 files already formatted |
-| Type checking | `$env:PYTHONPATH='apps/api'; py -m mypy apps/api/harborvision` | **Passed** | No issues in 14 source files |
+| Python formatting | `py -m ruff format --check apps tests scripts infrastructure/migrations/versions` | **Passed** | 31 files already formatted |
+| Type checking | `$env:PYTHONPATH='apps/api'; py -m mypy apps/api/harborvision` | **Passed** | No issues in 15 source files |
 | Python compilation | `$env:PYTHONPATH='apps/api'; py -m compileall -q apps/api/harborvision scripts tests` | **Passed** | No compile errors |
-| Backend tests | `$env:PYTHONPATH='apps/api'; py -m pytest -q` | **Passed with skip** | 28 passed, 1 skipped because Tesseract is not installed locally |
+| Dataset tests | `$env:PYTHONPATH='apps/api'; py -m pytest -q tests/test_public_dataset.py` | **Passed** | 3 passed |
+| Backend tests | `$env:PYTHONPATH='apps/api'; py -m pytest -q` | **Passed with skip** | 31 passed, 1 skipped because Tesseract is not installed locally |
 | Dependency consistency | `py -m pip check` | **Passed** | No broken requirements found |
 | Fresh migration and seed | `py -m alembic upgrade head`; `py -m harborvision.seed` with a temp SQLite database | **Passed** | Alembic revisions `0001` and `0002` applied; deterministic seed inserted |
 | Data integrity | `py scripts/data_integrity.py` against a seeded temp SQLite database | **Passed** | All integrity checks passed |
-| Local API smoke | Uvicorn on `127.0.0.1:8017` with a temp SQLite database | **Passed** | Readiness 200, OpenAPI docs 200, login succeeded, dashboard reported 600 containers |
+| Integrated verification | `$env:PYTHONPATH='apps/api'; py scripts/verify.py` | **Passed** | Public dataset endpoint returned 120 ports and 54 country codes; existing API, vision, reports, and integrity checks passed |
+| Local API smoke | Uvicorn on `127.0.0.1:8017` with a SQLite database | **Passed** | Readiness 200, OpenAPI docs 200, login succeeded, dashboard reported 600 containers |
 | Docker runtime | `docker --version` | **Not executed** | Docker is not installed on this host |
 | Tesseract OCR runtime | `tesseract --version` | **Not executed** | Tesseract is not installed on PATH |
 | Playwright browser install | `py -m playwright install chromium` | **Passed** | Managed Chromium downloaded for screenshot capture |
-| Screenshot regeneration | `$env:HARBORVISION_LOCAL_API='http://127.0.0.1:8017'; py scripts/capture_screenshots.py` | **Passed** | 23 PNG screenshots captured from the locally running app |
+| Screenshot regeneration | `$env:HARBORVISION_LOCAL_API='http://127.0.0.1:8017'; py scripts/capture_screenshots.py` | **Passed** | 24 PNG screenshots captured from the locally running app, including the public dataset workflow |
 
 ## Fixes made during verification
 
@@ -48,6 +51,7 @@ This launch verification covers the public open-source repository preparation pa
 - Added SQLite journal patterns to `.gitignore`.
 - Made screenshot capture portable across system Chromium and Playwright-managed Chromium, with `HARBORVISION_LOCAL_API` support for alternate local ports.
 - Removed stale README claims that repository publication could not be completed.
+- Added a reproducible WPI downloader, processed public-domain sample, API endpoint, browser view, tests, README section, dataset documentation, and third-party notices.
 
 ## Deterministic seed evidence
 
@@ -69,6 +73,19 @@ The fresh seed produced:
 | Reefer readings | 1,728 |
 | Cameras | 8 |
 
+## Public dataset evidence
+
+The WPI sample preparation produced:
+
+| Item | Value |
+|---|---:|
+| Processed records | 120 |
+| Distinct country codes | 54 |
+| Large harbor records | 55 |
+| Medium harbor records | 65 |
+
+The integrated verifier called `/api/v1/public-dataset/ports?limit=10` and received HTTP 200 with the public-domain license string, sample count, country count, and ranked port records.
+
 ## Data-integrity results
 
 Passed checks:
@@ -85,7 +102,7 @@ Passed checks:
 
 ## Browser evidence
 
-The repository includes 23 PNG screenshots under `docs/screenshots/`. They were regenerated on this Windows verification host from the implemented browser console connected to a locally running FastAPI application on `127.0.0.1:8017` and the deterministic NorthStar terminal database.
+The repository includes 24 PNG screenshots under `docs/screenshots/`. They were regenerated on this Windows verification host from the implemented browser console connected to a locally running FastAPI application on `127.0.0.1:8017`, the deterministic NorthStar terminal database, and the committed WPI public-dataset sample.
 
 ## Limitations
 

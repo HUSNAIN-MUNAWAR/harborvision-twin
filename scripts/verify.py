@@ -151,6 +151,21 @@ def main() -> None:
 
         analytics = checked(client, "get", "/api/v1/analytics/kpis", output["checks"], "analytics", headers=headers)
         output["checks"]["analytics"]["source"] = analytics.json()["source"]
+        public_dataset = checked(
+            client,
+            "get",
+            "/api/v1/public-dataset/ports?limit=10",
+            output["checks"],
+            "public_dataset",
+            headers=headers,
+        )
+        output["checks"]["public_dataset"].update(
+            {
+                "sample_ports": public_dataset.json()["summary"]["sample_ports"],
+                "countries": public_dataset.json()["summary"]["countries"],
+                "license": public_dataset.json()["dataset"]["license"],
+            }
+        )
 
         simulation_create = checked(
             client,

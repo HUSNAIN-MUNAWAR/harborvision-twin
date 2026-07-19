@@ -65,6 +65,7 @@ from .models import (
     YardBlock,
     YardSlot,
 )
+from .public_dataset import public_port_summary
 from .reports import (
     build_daily_pdf,
     build_operational_pdf,
@@ -484,6 +485,11 @@ def dashboard(user: User = Depends(current_user), db: Session = Depends(get_db))
             )
         ],
     }
+
+
+@app.get(f"{settings.api_prefix}/public-dataset/ports", tags=["public-dataset"])
+def public_dataset_ports(limit: int = Query(default=24, ge=1, le=120), user: User = Depends(current_user)):
+    return public_port_summary(limit=limit)
 
 
 @app.get(f"{settings.api_prefix}/digital-twin/state", tags=["digital-twin"])

@@ -1,16 +1,24 @@
 {
-  "verification_time": "2026-07-19T09:05:17.789606+00:00",
+  "verification_time": "2026-07-19T18:53:11.902988+00:00",
   "environment": {
     "platform": "Windows-11-10.0.22631-SP0",
     "python": "3.12.10",
     "node": "v24.18.0",
     "tesseract": null,
     "opencv": "4.13.0",
-    "docker_available": false,
-    "playwright": "1.61.0",
-    "managed_chromium": "149.0.7827.55"
+    "docker_available": false
   },
   "commands": [
+    {
+      "command": "py scripts/download_public_dataset.py",
+      "result": "passed",
+      "summary": {
+        "output": "data\\sample\\world-port-index-sample.csv",
+        "records": 120,
+        "countries": 54,
+        "license": "Public domain; U.S. Government work under 17 U.S.C. \u00a7105"
+      }
+    },
     {
       "command": "PYTHONPATH=apps/api python -m harborvision.seed",
       "result": "passed",
@@ -33,14 +41,9 @@
       }
     },
     {
-      "command": "py -m playwright install chromium",
-      "result": "passed",
-      "summary": "Managed Chromium installed for Playwright screenshot capture."
-    },
-    {
       "command": "$env:HARBORVISION_LOCAL_API='http://127.0.0.1:8017'; py scripts/capture_screenshots.py",
       "result": "passed",
-      "summary": "Captured 23 screenshots from the locally running FastAPI application and browser console."
+      "summary": "Captured 24 screenshots from the locally running FastAPI application and browser console."
     }
   ],
   "checks": {
@@ -50,12 +53,12 @@
     },
     "login": {
       "status": 200,
-      "latency_ms": 864.76,
+      "latency_ms": 698.78,
       "bytes": 406
     },
     "readiness": {
       "status": 200,
-      "latency_ms": 5.17,
+      "latency_ms": 5.67,
       "bytes": 359,
       "components": {
         "database": {
@@ -78,7 +81,7 @@
     },
     "dashboard": {
       "status": 200,
-      "latency_ms": 94.82,
+      "latency_ms": 67.04,
       "bytes": 1842,
       "kpis": {
         "vessels_in_port": 3,
@@ -94,18 +97,18 @@
     },
     "container_search": {
       "status": 200,
-      "latency_ms": 37.95,
+      "latency_ms": 27.63,
       "bytes": 9932
     },
     "digital_twin": {
       "status": 200,
-      "latency_ms": 131.6,
+      "latency_ms": 41.43,
       "bytes": 7046,
       "mode": "live"
     },
     "historical_playback": {
       "status": 200,
-      "latency_ms": 15.22,
+      "latency_ms": 11.5,
       "bytes": 15539,
       "event_count": 24,
       "snapshot": null,
@@ -113,7 +116,7 @@
     },
     "yard_placement_analysis": {
       "status": 200,
-      "latency_ms": 172.47,
+      "latency_ms": 156.26,
       "bytes": 5649,
       "candidate_count": 10,
       "rejected_sample_count": 25,
@@ -121,34 +124,42 @@
     },
     "gate_overview": {
       "status": 200,
-      "latency_ms": 11.61,
+      "latency_ms": 10.92,
       "bytes": 5631
     },
     "truck_visit_timeline": {
       "status": 200,
-      "latency_ms": 6.09,
+      "latency_ms": 7.2,
       "bytes": 496,
       "stage_count": 5
     },
     "analytics": {
       "status": 200,
-      "latency_ms": 93.1,
+      "latency_ms": 63.19,
       "bytes": 370,
       "source": "calculated from persisted database records"
     },
+    "public_dataset": {
+      "status": 200,
+      "latency_ms": 11.47,
+      "bytes": 4149,
+      "sample_ports": 120,
+      "countries": 54,
+      "license": "Public domain; U.S. Government work under 17 U.S.C. \u00a7105"
+    },
     "simulation_create": {
       "status": 200,
-      "latency_ms": 708.05,
+      "latency_ms": 720.94,
       "bytes": 74
     },
     "simulation_start": {
       "status": 200,
-      "latency_ms": 715.85,
+      "latency_ms": 504.56,
       "bytes": 133
     },
     "simulation_advance": {
       "status": 200,
-      "latency_ms": 5136.54,
+      "latency_ms": 1149.08,
       "bytes": 141,
       "state": "completed",
       "events_created": 1
@@ -160,12 +171,12 @@
     },
     "vision": {
       "status": 200,
-      "latency_ms": 4128.37,
+      "latency_ms": 3628.65,
       "bytes": 188,
       "video": "data\\sample\\restricted-zone-demo.mp4",
       "frames_processed": 150,
       "events_created": 1,
-      "processing_fps": 52.93,
+      "processing_fps": 61.13,
       "latest_annotated_frame": "data\\generated\\annotated\\cam-01-latest.jpg"
     },
     "persisted_safety_event": {
@@ -179,7 +190,7 @@
         "severity": "high",
         "track_id": 1,
         "confidence": 0.92,
-        "detected_at": "2026-07-19T09:06:47.465428",
+        "detected_at": "2026-07-19T18:54:48.842259",
         "evidence_path": "data\\generated\\evidence\\intrusion-CAM-01-00104.jpg",
         "evidence_url": "/artifacts/data\\generated\\evidence\\intrusion-CAM-01-00104.jpg",
         "review_status": "unreviewed",
@@ -207,32 +218,32 @@
     },
     "report_daily-terminal-operations": {
       "status": 200,
-      "latency_ms": 2232.04,
-      "bytes": 2274,
+      "latency_ms": 449.46,
+      "bytes": 2276,
       "pdf_signature": "%PDF"
     },
     "report_gate-performance": {
       "status": 200,
-      "latency_ms": 1941.52,
-      "bytes": 9043,
+      "latency_ms": 349.42,
+      "bytes": 9040,
       "pdf_signature": "%PDF"
     },
     "report_equipment-health": {
       "status": 200,
-      "latency_ms": 1988.29,
-      "bytes": 3550,
+      "latency_ms": 556.06,
+      "bytes": 3553,
       "pdf_signature": "%PDF"
     },
     "report_reefer-exceptions": {
       "status": 200,
-      "latency_ms": 1334.61,
+      "latency_ms": 255.52,
       "bytes": 2507,
       "pdf_signature": "%PDF"
     },
     "security_headers": {
       "passed": true,
       "values": {
-        "x-request-id": "18865e0f-bc2a-4501-84c8-29672620e6ca",
+        "x-request-id": "e64fb800-31a5-4461-878a-e7fcad849701",
         "x-content-type-options": "nosniff",
         "x-frame-options": "DENY",
         "referrer-policy": "same-origin"
@@ -285,13 +296,13 @@
       }
     },
     "web_assets": {
-      "html_bytes": 3627,
-      "javascript_bytes": 54352,
+      "html_bytes": 3703,
+      "javascript_bytes": 57058,
       "css_bytes": 12776
     },
     "screenshots": {
       "passed": true,
-      "count": 23,
+      "count": 24,
       "directory": "docs/screenshots"
     }
   },

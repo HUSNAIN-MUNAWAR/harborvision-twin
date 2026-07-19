@@ -19,12 +19,13 @@ These images were captured from the implemented browser console while it was con
 15. `reefer-monitoring.png`
 16. `incident-detail.png`
 17. `analytics.png`
-18. `report-preview.png`
-19. `simulation-control.png`
-20. `system-health.png`
-21. `audit-log.png`
-22. `api-documentation.png`
-23. `cli-output.png`
+18. `public-dataset-reference.png`
+19. `report-preview.png`
+20. `simulation-control.png`
+21. `system-health.png`
+22. `audit-log.png`
+23. `api-documentation.png`
+24. `cli-output.png`
 
 The capture utility supports both a complete run and isolated workers:
 

@@ -179,6 +179,8 @@ def capture_named(name: str) -> None:
             page.wait_for_timeout(500)
         elif name == "analytics.png":
             click_nav(page, "Analytics")
+        elif name == "public-dataset-reference.png":
+            click_nav(page, "Public dataset")
         elif name == "report-preview.png":
             click_nav(page, "Reports")
             page.locator(".report-preview").first.click()
@@ -219,6 +221,7 @@ SCREENSHOTS = [
     "reefer-monitoring.png",
     "incident-detail.png",
     "analytics.png",
+    "public-dataset-reference.png",
     "report-preview.png",
     "simulation-control.png",
     "system-health.png",
