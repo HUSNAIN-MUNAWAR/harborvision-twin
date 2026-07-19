@@ -304,14 +304,37 @@ docs/                     Architecture, pipelines, audit, runbook, media, verifi
 
 Real application media is stored under [`docs/screenshots`](docs/screenshots/) and [`docs/demo`](docs/demo/). Capture scripts use the implemented web code and API responses. They do not add unimplemented UI elements in post-processing.
 
-- [Command center](docs/screenshots/command-center.png)
-- [Public dataset workflow](docs/screenshots/public-dataset-reference.png)
-- [Historical playback](docs/screenshots/historical-playback.png)
-- [Container movement history](docs/screenshots/container-movement-history.png)
-- [Safety evidence screenshot](docs/screenshots/safety-event-evidence.png)
+| App surface | Screenshot |
+| --- | --- |
+| Login page | <img src="docs/screenshots/login-page.png" alt="Login page" width="420"> |
+| Command center | <img src="docs/screenshots/command-center.png" alt="Command center" width="420"> |
+| Terminal digital twin | <img src="docs/screenshots/terminal-digital-twin.png" alt="Terminal digital twin" width="420"> |
+| Historical playback | <img src="docs/screenshots/historical-playback.png" alt="Historical playback" width="420"> |
+| Berth planning timeline | <img src="docs/screenshots/berth-planning-timeline.png" alt="Berth planning timeline" width="420"> |
+| Yard overview | <img src="docs/screenshots/yard-overview.png" alt="Yard overview" width="420"> |
+| Yard block stack view | <img src="docs/screenshots/yard-block-stack-view.png" alt="Yard block stack view" width="420"> |
+| Container movement history | <img src="docs/screenshots/container-movement-history.png" alt="Container movement history" width="420"> |
+| Gate operations | <img src="docs/screenshots/gate-operations.png" alt="Gate operations" width="420"> |
+| OCR review | <img src="docs/screenshots/ocr-review.png" alt="OCR review" width="420"> |
+| Safety event center | <img src="docs/screenshots/safety-event-center.png" alt="Safety event center" width="420"> |
+| Safety event evidence | <img src="docs/screenshots/safety-event-evidence.png" alt="Safety event evidence" width="420"> |
+| Equipment fleet | <img src="docs/screenshots/equipment-fleet.png" alt="Equipment fleet" width="420"> |
+| Equipment anomaly | <img src="docs/screenshots/equipment-anomaly.png" alt="Equipment anomaly" width="420"> |
+| Reefer monitoring | <img src="docs/screenshots/reefer-monitoring.png" alt="Reefer monitoring" width="420"> |
+| Incident detail | <img src="docs/screenshots/incident-detail.png" alt="Incident detail" width="420"> |
+| Analytics | <img src="docs/screenshots/analytics.png" alt="Analytics" width="420"> |
+| Public dataset reference | <img src="docs/screenshots/public-dataset-reference.png" alt="Public dataset reference" width="420"> |
+| Report preview | <img src="docs/screenshots/report-preview.png" alt="Report preview" width="420"> |
+| Simulation control | <img src="docs/screenshots/simulation-control.png" alt="Simulation control" width="420"> |
+| System health | <img src="docs/screenshots/system-health.png" alt="System health" width="420"> |
+| Audit log | <img src="docs/screenshots/audit-log.png" alt="Audit log" width="420"> |
+| API documentation | <img src="docs/screenshots/api-documentation.png" alt="API documentation" width="420"> |
+| CLI verification output | <img src="docs/screenshots/cli-output.png" alt="CLI verification output" width="420"> |
+
+Supporting evidence and walkthrough media:
+
 - [Verified intrusion evidence image](docs/evidence/restricted-zone-intrusion.jpg)
 - [Generated daily terminal PDF](docs/reports/daily-terminal-operations.pdf)
-- [Simulation lifecycle](docs/screenshots/simulation-control.png)
 - [Phase 2 MP4 walkthrough](docs/demo/harborvision-phase2-walkthrough.mp4)
 
 ## Security
