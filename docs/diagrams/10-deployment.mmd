@@ -1,0 +1,8 @@
+flowchart TB
+  Browser --> Web[Web :3000]
+  Web --> API[API :8000]
+  API --> PostGIS[(PostGIS)]
+  API --> Redis[(Redis)]
+  API --> MinIO[(MinIO)]
+  Worker --> PostGIS
+  Worker --> MinIO

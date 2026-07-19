@@ -1,0 +1,12 @@
+flowchart TB
+  Browser --> Web[Nginx / Built-in Web]
+  Web --> API[FastAPI]
+  API --> Auth[Auth & RBAC]
+  API --> Event[Event Engine]
+  API --> Domain[Domain Services]
+  API --> Vision[Vision & OCR]
+  API --> Reports
+  API --> DB[(SQLite / PostGIS)]
+  API -.-> Redis[(Redis)]
+  Vision --> Store[(Local / MinIO)]
+  Worker --> DB

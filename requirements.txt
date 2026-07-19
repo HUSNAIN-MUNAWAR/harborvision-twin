@@ -1,0 +1,15 @@
+fastapi>=0.115,<1
+uvicorn[standard]>=0.34,<1
+SQLAlchemy>=2.0,<3
+alembic>=1.14,<2
+pydantic>=2.10,<3
+PyJWT>=2.10,<3
+opencv-python-headless>=4.10,<5
+numpy>=2.0,<3
+Pillow>=11,<12
+pytesseract>=0.3.13,<1
+reportlab>=4.2,<5
+psycopg[binary]>=3.2,<4
+redis>=5.2,<6
+httpx>=0.28,<1
+python-multipart>=0.0.20,<1

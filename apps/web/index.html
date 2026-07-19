@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#07131d" />
+  <title>HarborVision Twin</title>
+  <link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+  <div id="login" class="login-shell">
+    <section class="login-panel">
+      <div class="brand-mark">HV</div>
+      <div>
+        <p class="eyebrow">NORTHSTAR CONTAINER TERMINAL</p>
+        <h1>HarborVision Twin</h1>
+        <p class="muted">Smart port and container-terminal intelligence, running locally.</p>
+      </div>
+      <form id="login-form">
+        <label>Email<input id="email" type="email" value="director@harborvision.local" required /></label>
+        <label>Password<input id="password" type="password" value="HarborVision!2026" required /></label>
+        <button type="submit" class="primary">Enter operations console</button>
+        <p id="login-error" class="error"></p>
+      </form>
+      <div class="security-note"><span class="pulse-dot"></span> Development demonstration · CPU-first · persisted operations</div>
+    </section>
+    <section class="login-visual">
+      <div class="radar radar-one"></div><div class="radar radar-two"></div>
+      <div class="port-line port-line-a"></div><div class="port-line port-line-b"></div>
+      <div class="visual-caption"><strong>Live operational state</strong><span>Berths · Yard · Gate · Safety · Equipment · Reefer</span></div>
+    </section>
+  </div>
+
+  <div id="app" class="app hidden">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark small">HV</div><div><strong>HarborVision</strong><span>NorthStar Terminal</span></div></div>
+      <nav id="nav">
+        <button data-view="command" class="active"><span>⌂</span>Command center</button>
+        <button data-view="twin"><span>◇</span>Digital twin</button>
+        <button data-view="vessels"><span>≋</span>Vessel operations</button>
+        <button data-view="yard"><span>▦</span>Yard intelligence</button>
+        <button data-view="containers"><span>▣</span>Container registry</button>
+        <button data-view="gate"><span>⇄</span>Gate operations</button>
+        <button data-view="safety"><span>⚠</span>Safety center</button>
+        <button data-view="incidents"><span>!</span>Incidents</button>
+        <button data-view="equipment"><span>⚙</span>Equipment health</button>
+        <button data-view="workorders"><span>✓</span>Work orders</button>
+        <button data-view="reefers"><span>❄</span>Reefer monitoring</button>
+        <button data-view="analytics"><span>⌁</span>Analytics</button>
+        <button data-view="reports"><span>▤</span>Reports</button>
+        <button data-view="simulation"><span>▶</span>Simulation control</button>
+        <button data-view="audit"><span>≡</span>Audit log</button>
+        <button data-view="health"><span>●</span>System health</button>
+      </nav>
+      <div class="sidebar-footer"><span id="user-role">—</span><button id="logout">Sign out</button></div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div><p class="eyebrow" id="section-kicker">OPERATIONS</p><h2 id="section-title">Executive command center</h2></div>
+        <div class="top-actions"><div id="connection" class="connection"><span></span>Connecting</div><div class="clock" id="clock"></div></div>
+      </header>
+      <section id="content" class="content"></section>
+    </main>
+  </div>
+  <div id="toast" class="toast hidden"></div>
+  <script type="module" src="/assets/app.js"></script>
+</body>
+</html>

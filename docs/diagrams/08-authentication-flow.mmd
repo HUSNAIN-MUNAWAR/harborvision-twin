@@ -1,0 +1,7 @@
+sequenceDiagram
+  Browser->>API: Email + password
+  API->>Database: Verify PBKDF2 hash
+  API-->>Browser: Access + refresh token
+  Browser->>API: Refresh token
+  API->>Database: Revoke and rotate
+  API-->>Browser: New token pair

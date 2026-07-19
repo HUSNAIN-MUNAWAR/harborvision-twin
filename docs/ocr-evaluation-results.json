@@ -1,0 +1,73 @@
+{
+  "dataset": "deterministic synthetic HarborVision samples",
+  "samples": 6,
+  "exact_match_accuracy": 1.0,
+  "character_accuracy": 1.0,
+  "valid_id_recovery_rate": 1.0,
+  "average_confidence": 0.93,
+  "average_latency_ms": 279.38,
+  "review_required_rate": 0.0,
+  "warning": "Synthetic local results are not evidence of industrial field accuracy.",
+  "results": [
+    {
+      "expected": "CMAU1000036",
+      "predicted": "CMAU1000036",
+      "exact_match": true,
+      "character_accuracy": 1.0,
+      "valid_id": true,
+      "confidence": 0.93,
+      "processing_ms": 672.8,
+      "review_required": false
+    },
+    {
+      "expected": "CMAU1000118",
+      "predicted": "CMAU1000118",
+      "exact_match": true,
+      "character_accuracy": 1.0,
+      "valid_id": true,
+      "confidence": 0.935,
+      "processing_ms": 200.8,
+      "review_required": false
+    },
+    {
+      "expected": "CMAU1000191",
+      "predicted": "CMAU1000191",
+      "exact_match": true,
+      "character_accuracy": 1.0,
+      "valid_id": true,
+      "confidence": 0.91,
+      "processing_ms": 202.6,
+      "review_required": false
+    },
+    {
+      "expected": "CMAU1000273",
+      "predicted": "CMAU1000273",
+      "exact_match": true,
+      "character_accuracy": 1.0,
+      "valid_id": true,
+      "confidence": 0.935,
+      "processing_ms": 204.8,
+      "review_required": false
+    },
+    {
+      "expected": "CMAU1000355",
+      "predicted": "CMAU1000355",
+      "exact_match": true,
+      "character_accuracy": 1.0,
+      "valid_id": true,
+      "confidence": 0.935,
+      "processing_ms": 198.4,
+      "review_required": false
+    },
+    {
+      "expected": "CMAU1000437",
+      "predicted": "CMAU1000437",
+      "exact_match": true,
+      "character_accuracy": 1.0,
+      "valid_id": true,
+      "confidence": 0.935,
+      "processing_ms": 196.9,
+      "review_required": false
+    }
+  ]
+}

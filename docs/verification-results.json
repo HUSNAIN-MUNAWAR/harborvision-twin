@@ -1,0 +1,308 @@
+{
+  "verification_time": "2026-07-19T09:05:17.789606+00:00",
+  "environment": {
+    "platform": "Windows-11-10.0.22631-SP0",
+    "python": "3.12.10",
+    "node": "v24.18.0",
+    "tesseract": null,
+    "opencv": "4.13.0",
+    "docker_available": false,
+    "playwright": "1.61.0",
+    "managed_chromium": "149.0.7827.55"
+  },
+  "commands": [
+    {
+      "command": "PYTHONPATH=apps/api python -m harborvision.seed",
+      "result": "passed",
+      "summary": {
+        "organization_id": 1,
+        "terminal_id": 1,
+        "users": 6,
+        "berths": 4,
+        "vessels": 6,
+        "yard_blocks": 8,
+        "yard_slots": 960,
+        "containers": 600,
+        "truck_visits": 120,
+        "equipment": 20,
+        "telemetry_readings": 7200,
+        "reefer_readings": 1728,
+        "cameras": 8,
+        "sample_video": "data\\sample\\restricted-zone-demo.mp4",
+        "sample_image": "data\\sample\\container-code-sample.png"
+      }
+    },
+    {
+      "command": "py -m playwright install chromium",
+      "result": "passed",
+      "summary": "Managed Chromium installed for Playwright screenshot capture."
+    },
+    {
+      "command": "$env:HARBORVISION_LOCAL_API='http://127.0.0.1:8017'; py scripts/capture_screenshots.py",
+      "result": "passed",
+      "summary": "Captured 23 screenshots from the locally running FastAPI application and browser console."
+    }
+  ],
+  "checks": {
+    "invalid_login": {
+      "status": 401,
+      "passed": true
+    },
+    "login": {
+      "status": 200,
+      "latency_ms": 864.76,
+      "bytes": 406
+    },
+    "readiness": {
+      "status": 200,
+      "latency_ms": 5.17,
+      "bytes": 359,
+      "components": {
+        "database": {
+          "status": "ok",
+          "adapter": "sqlite"
+        },
+        "storage": {
+          "status": "ok",
+          "adapter": "local-filesystem"
+        },
+        "redis": {
+          "status": "not-configured",
+          "required": false
+        },
+        "worker": {
+          "status": "not-started",
+          "required": false
+        }
+      }
+    },
+    "dashboard": {
+      "status": 200,
+      "latency_ms": 94.82,
+      "bytes": 1842,
+      "kpis": {
+        "vessels_in_port": 3,
+        "berth_utilization_pct": 75.0,
+        "yard_occupancy_pct": 62.5,
+        "gate_queue": 10,
+        "average_gate_wait_minutes": 12.7,
+        "active_incidents": 1,
+        "critical_reefer_alarms": 2,
+        "equipment_availability_pct": 92.7,
+        "container_registry": 600
+      }
+    },
+    "container_search": {
+      "status": 200,
+      "latency_ms": 37.95,
+      "bytes": 9932
+    },
+    "digital_twin": {
+      "status": 200,
+      "latency_ms": 131.6,
+      "bytes": 7046,
+      "mode": "live"
+    },
+    "historical_playback": {
+      "status": 200,
+      "latency_ms": 15.22,
+      "bytes": 15539,
+      "event_count": 24,
+      "snapshot": null,
+      "reconstruction": "nearest persisted snapshot plus ordered operational events"
+    },
+    "yard_placement_analysis": {
+      "status": 200,
+      "latency_ms": 172.47,
+      "bytes": 5649,
+      "candidate_count": 10,
+      "rejected_sample_count": 25,
+      "method": "deterministic compatibility filters plus weighted travel, utilization, tier and rehandle heuristic"
+    },
+    "gate_overview": {
+      "status": 200,
+      "latency_ms": 11.61,
+      "bytes": 5631
+    },
+    "truck_visit_timeline": {
+      "status": 200,
+      "latency_ms": 6.09,
+      "bytes": 496,
+      "stage_count": 5
+    },
+    "analytics": {
+      "status": 200,
+      "latency_ms": 93.1,
+      "bytes": 370,
+      "source": "calculated from persisted database records"
+    },
+    "simulation_create": {
+      "status": 200,
+      "latency_ms": 708.05,
+      "bytes": 74
+    },
+    "simulation_start": {
+      "status": 200,
+      "latency_ms": 715.85,
+      "bytes": 133
+    },
+    "simulation_advance": {
+      "status": 200,
+      "latency_ms": 5136.54,
+      "bytes": 141,
+      "state": "completed",
+      "events_created": 1
+    },
+    "ocr": {
+      "passed": null,
+      "skipped": true,
+      "reason": "Tesseract OCR binary is not installed on PATH."
+    },
+    "vision": {
+      "status": 200,
+      "latency_ms": 4128.37,
+      "bytes": 188,
+      "video": "data\\sample\\restricted-zone-demo.mp4",
+      "frames_processed": 150,
+      "events_created": 1,
+      "processing_fps": 52.93,
+      "latest_annotated_frame": "data\\generated\\annotated\\cam-01-latest.jpg"
+    },
+    "persisted_safety_event": {
+      "passed": true,
+      "count": 1,
+      "latest": {
+        "id": 1,
+        "camera_id": 1,
+        "zone_id": 1,
+        "event_type": "restricted_zone_intrusion",
+        "severity": "high",
+        "track_id": 1,
+        "confidence": 0.92,
+        "detected_at": "2026-07-19T09:06:47.465428",
+        "evidence_path": "data\\generated\\evidence\\intrusion-CAM-01-00104.jpg",
+        "evidence_url": "/artifacts/data\\generated\\evidence\\intrusion-CAM-01-00104.jpg",
+        "review_status": "unreviewed",
+        "details": {
+          "frame": 104,
+          "frame_timestamp_seconds": 6.933,
+          "centroid": [
+            582,
+            305
+          ],
+          "bbox": [
+            553,
+            244,
+            59,
+            122
+          ],
+          "dwell_seconds": 0.27,
+          "direction": "east",
+          "track_hits": 94,
+          "rule": "restricted_intrusion",
+          "zone": "Crane Restricted Envelope",
+          "source": "data\\sample\\restricted-zone-demo.mp4"
+        }
+      }
+    },
+    "report_daily-terminal-operations": {
+      "status": 200,
+      "latency_ms": 2232.04,
+      "bytes": 2274,
+      "pdf_signature": "%PDF"
+    },
+    "report_gate-performance": {
+      "status": 200,
+      "latency_ms": 1941.52,
+      "bytes": 9043,
+      "pdf_signature": "%PDF"
+    },
+    "report_equipment-health": {
+      "status": 200,
+      "latency_ms": 1988.29,
+      "bytes": 3550,
+      "pdf_signature": "%PDF"
+    },
+    "report_reefer-exceptions": {
+      "status": 200,
+      "latency_ms": 1334.61,
+      "bytes": 2507,
+      "pdf_signature": "%PDF"
+    },
+    "security_headers": {
+      "passed": true,
+      "values": {
+        "x-request-id": "18865e0f-bc2a-4501-84c8-29672620e6ca",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "referrer-policy": "same-origin"
+      }
+    },
+    "logout_revocation": {
+      "logout_status": 200,
+      "refresh_replay_status": 401,
+      "passed": true
+    },
+    "data_integrity": {
+      "passed": true,
+      "result": {
+        "status": "passed",
+        "checks": {
+          "one_container_per_active_slot": {
+            "passed": true,
+            "duplicates": []
+          },
+          "slot_occupancy_matches_container_location": {
+            "passed": true,
+            "mismatched_slot_ids": []
+          },
+          "vessel_chronology": {
+            "passed": true,
+            "vessel_call_ids": []
+          },
+          "truck_chronology": {
+            "passed": true,
+            "visit_ids": []
+          },
+          "reefer_readings_reference_reefers": {
+            "passed": true,
+            "reading_ids": []
+          },
+          "incident_source_references": {
+            "passed": true,
+            "incident_ids": []
+          },
+          "organization_references": {
+            "passed": true,
+            "records": []
+          },
+          "current_location_matches_latest_movement": {
+            "passed": true,
+            "container_ids": []
+          }
+        },
+        "failures": []
+      }
+    },
+    "web_assets": {
+      "html_bytes": 3627,
+      "javascript_bytes": 54352,
+      "css_bytes": 12776
+    },
+    "screenshots": {
+      "passed": true,
+      "count": 23,
+      "directory": "docs/screenshots"
+    }
+  },
+  "warnings": [],
+  "limitations": [
+    "OCR verification was skipped because Tesseract OCR is not installed on PATH.",
+    "Docker commands cannot run because no Docker binary is installed on the verification host.",
+    "PostgreSQL/PostGIS, Redis, and MinIO runtime behavior is not claimed from the SQLite verification run.",
+    "The web console is standards-based JavaScript rather than Next.js.",
+    "Vision verification covers tracked motion and polygon rules, not semantic person, vehicle, PPE, or certified safety detection.",
+    "OCR results use generated samples and are not industrial field-accuracy evidence.",
+    "The worker is a heartbeat/process-separation baseline rather than a distributed queue with a dead-letter service."
+  ]
+}

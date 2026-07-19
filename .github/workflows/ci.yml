@@ -1,0 +1,62 @@
+name: HarborVision CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr libgl1 libglib2.0-0
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements-dev.txt
+      - name: Lint
+        run: ruff check apps tests scripts infrastructure/migrations/versions
+      - name: Format check
+        run: ruff format --check apps tests scripts infrastructure/migrations/versions
+      - name: Type check
+        run: PYTHONPATH=apps/api mypy apps/api/harborvision
+      - name: Test
+        run: PYTHONPATH=apps/api pytest --cov=harborvision --cov-report=term-missing
+      - name: Clean migration and seed
+        env:
+          DATABASE_URL: sqlite:////tmp/harborvision-ci.db
+          JWT_SECRET: ci-only-secret-at-least-32-bytes-long
+          ENVIRONMENT: test
+        run: |
+          rm -f /tmp/harborvision-ci.db
+          PYTHONPATH=apps/api alembic upgrade head
+          PYTHONPATH=apps/api python -m harborvision.seed
+          PYTHONPATH=apps/api python scripts/data_integrity.py
+      - name: Dependency consistency
+        run: python -m pip check
+
+  frontend-and-hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Browser application syntax
+        run: node --check apps/web/app.js
+      - name: Python compile check
+        run: PYTHONPATH=apps/api python -m compileall -q apps/api/harborvision scripts tests
+      - name: Repository hygiene scan
+        run: python scripts/secret_scan.py

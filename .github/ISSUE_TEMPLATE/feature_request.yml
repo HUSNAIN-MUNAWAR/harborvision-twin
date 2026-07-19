@@ -1,0 +1,23 @@
+name: Feature request
+description: Propose an operationally grounded enhancement
+title: "feat: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes: {label: Operational problem, description: Describe the user and workflow problem rather than only a UI idea.}
+    validations: {required: true}
+  - type: textarea
+    id: proposal
+    attributes: {label: Proposed capability}
+    validations: {required: true}
+  - type: textarea
+    id: evidence
+    attributes: {label: Data, validation, safety, or tenancy considerations}
+  - type: checkboxes
+    id: boundaries
+    attributes:
+      label: Contribution boundaries
+      options:
+        - label: I will not include proprietary maps, real credentials, private camera data, or unlicensed model weights.
+          required: true

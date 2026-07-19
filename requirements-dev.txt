@@ -1,0 +1,7 @@
+-r requirements.txt
+pytest>=8.3,<9
+pytest-cov>=6,<7
+ruff>=0.9,<1
+mypy>=1.14,<2
+playwright>=1.56,<2
+requests>=2.32,<3

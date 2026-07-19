@@ -1,0 +1,10 @@
+sequenceDiagram
+  Client->>EventEngine: Event + idempotency key
+  EventEngine->>Database: Duplicate check
+  alt new
+    EventEngine->>Database: Persist event
+    EventEngine->>State: Apply typed mutation
+    State->>Database: Update state/history
+  else duplicate
+    Database-->>Client: Existing event
+  end

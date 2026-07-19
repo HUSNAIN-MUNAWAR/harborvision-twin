@@ -1,0 +1,6 @@
+flowchart LR
+  Events --> CurrentState
+  CurrentState --> TwinQuery
+  TwinQuery --> MapLayers
+  CurrentState --> Snapshot
+  Snapshot --> HistoricalReference
