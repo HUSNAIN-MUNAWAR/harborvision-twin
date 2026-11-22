@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "real_local_runtime",
+  "generated_at_utc": "2026-11-22T18:53:17.135638+00:00",
+  "source": {
+    "path": "data\\sample\\restricted-zone-demo.mp4",
+    "sha256": "sha256:ecb70d4dba4d4ef4ded8dd0ce67f2264bfcc0cad8a2435dfe87b03c35294dbac",
+    "dataset_status": "repository-generated synthetic smoke media",
+    "license_boundary": "original repository-generated asset; not field footage"
+  },
+  "runtime": {
+    "platform": "Windows-11-10.0.22631-SP0",
+    "python": "3.12.10",
+    "opencv": "4.13.0",
+    "algorithm": "MOG2 background subtraction + morphology + contour area filter + nearest-centroid tracker",
+    "decision_rule": "confirmed track inside configured polygon for dwell time with cooldown",
+    "model_checkpoint": null,
+    "external_endpoint": false,
+    "result": {
+      "video": "data\\sample\\restricted-zone-demo.mp4",
+      "frames_processed": 150,
+      "events_created": 1,
+      "processing_fps": 40.11,
+      "latest_annotated_frame": "data\\generated\\annotated\\cam-01-latest.jpg",
+      "annotated_output": "docs\\animation\\runtime-evidence\\harborvision-vision-runtime.mp4",
+      "trace_output": "docs\\animation\\runtime-evidence\\harborvision-vision-trace.csv",
+      "tracked_rows": 149
+    },
+    "media": {
+      "frames": 150,
+      "width": 960,
+      "height": 540,
+      "fps": 15.0
+    },
+    "trace_rows": 149
+  },
+  "events": [
+    {
+      "id": 1,
+      "event_type": "restricted_zone_intrusion",
+      "severity": "high",
+      "track_id": 1,
+      "confidence": 0.92,
+      "evidence_path": "data\\generated\\evidence\\intrusion-CAM-01-00104.jpg",
+      "details": {
+        "frame": 104,
+        "frame_timestamp_seconds": 6.933,
+        "centroid": [
+          582,
+          305
+        ],
+        "bbox": [
+          553,
+          244,
+          59,
+          122
+        ],
+        "dwell_seconds": 0.27,
+        "direction": "east",
+        "track_hits": 94,
+        "rule": "restricted_intrusion",
+        "zone": "Crane Restricted Envelope",
+        "source": "data\\sample\\restricted-zone-demo.mp4"
+      }
+    }
+  ],
+  "artifacts": {
+    "video": {
+      "path": "docs\\animation\\runtime-evidence\\harborvision-vision-runtime.mp4",
+      "sha256": "sha256:2fbaf416f1d24fcb5eee6f3f53697cacbbec4f63da70e2b551aff501a9842a7c"
+    },
+    "poster": {
+      "path": "docs\\animation\\runtime-evidence\\harborvision-vision-runtime-poster.jpg",
+      "sha256": "sha256:c619dc160cfbd1581376ca40d11627838d0296444de154e63cce9b40a976ae89"
+    },
+    "trace": {
+      "path": "docs\\animation\\runtime-evidence\\harborvision-vision-trace.csv",
+      "sha256": "sha256:971e6335c1581523222d0795aedc3c055f9cda095ef960a69aa864b8b2b5ed61"
+    }
+  },
+  "ocr": {
+    "status": "BLOCKED",
+    "reason": "Tesseract executable is not installed on PATH on this host.",
+    "reproduction": "Install Tesseract, then run PYTHONPATH=apps/api python scripts/ocr_evaluate.py."
+  },
+  "claim_boundary": [
+    "The video and trace are produced by the repository's executed motion-tracking pipeline.",
+    "The pipeline detects motion-derived tracked objects; it is not a semantic person, vehicle, PPE, or certified safety detector.",
+    "The source media and OCR evaluation are synthetic/local smoke evidence, not industrial field accuracy."
+  ]
+}

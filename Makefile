@@ -1,7 +1,7 @@
 PYTHONPATH := apps/api
 PYTHON := python
 
-.PHONY: setup dev up down logs migrate migrate-check seed reset test test-backend test-frontend test-e2e lint format format-check typecheck build verify data-integrity ocr-evaluate security-scan screenshots walkthrough package clean
+.PHONY: setup dev up down logs migrate migrate-check seed reset test test-backend test-frontend test-e2e lint format format-check typecheck build verify data-integrity ocr-evaluate runtime-evidence security-scan screenshots walkthrough package clean
 
 setup:
 	$(PYTHON) -m pip install -r requirements-dev.txt
@@ -62,6 +62,9 @@ data-integrity:
 
 ocr-evaluate:
 	PYTHONPATH=$(PYTHONPATH) $(PYTHON) scripts/ocr_evaluate.py
+
+runtime-evidence:
+	PYTHONPATH=$(PYTHONPATH) $(PYTHON) scripts/generate_real_runtime_evidence.py
 
 security-scan:
 	$(PYTHON) scripts/secret_scan.py

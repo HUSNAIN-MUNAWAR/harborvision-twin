@@ -215,6 +215,16 @@ curl -X POST http://localhost:8000/api/v1/vision/process-sample \
 
 The included legally generated MP4 is decoded frame by frame. Evidence is created only when a confirmed track satisfies the configured zone dwell rule.
 
+### Real vision runtime evidence
+
+Regenerate the artifact-backed vision capture:
+
+```bash
+PYTHONPATH=apps/api python scripts/generate_real_runtime_evidence.py
+```
+
+This runs the actual MOG2 foreground segmentation, contour filtering, centroid tracking, polygon membership, dwell/cooldown rule, database persistence, and annotated video writer against the committed source video. The saved [MP4](docs/animation/runtime-evidence/harborvision-vision-runtime.mp4), [poster](docs/animation/runtime-evidence/harborvision-vision-runtime-poster.jpg), [per-track trace](docs/animation/runtime-evidence/harborvision-vision-trace.csv), and [runtime summary](docs/animation/runtime-evidence/harborvision-vision-runtime-summary.json) are generated from that execution. The source is repository-generated synthetic smoke media, no learned checkpoint is loaded, and the pipeline must not be described as semantic person/vehicle/PPE detection. OCR is reported as blocked on hosts without Tesseract.
+
 ### Evaluate OCR
 
 ```bash

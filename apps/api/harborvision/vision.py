@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import json
 import math
 import re
@@ -86,7 +87,15 @@ def generate_sample_video(path: Path, width: int = 960, height: int = 540, frame
     return path
 
 
-def process_video(db: Session, organization_id: int, camera: Camera, zone: CameraZone, video_path: Path) -> dict:
+def process_video(
+    db: Session,
+    organization_id: int,
+    camera: Camera,
+    zone: CameraZone,
+    video_path: Path,
+    annotated_output: Path | None = None,
+    trace_output: Path | None = None,
+) -> dict:
     cap = cv2.VideoCapture(str(video_path))
     if not cap.isOpened():
         raise RuntimeError(f"Cannot open video {video_path}")
@@ -102,6 +111,21 @@ def process_video(db: Session, organization_id: int, camera: Camera, zone: Camer
     processed = 0
     started = time.perf_counter()
     latest_path = annotated_dir / f"{camera.code.lower()}-latest.jpg"
+    annotated_writer = None
+    trace_rows: list[dict[str, object]] = []
+    if annotated_output is not None:
+        annotated_output.parent.mkdir(parents=True, exist_ok=True)
+        width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        annotated_writer = cv2.VideoWriter(
+            str(annotated_output),
+            cv2.VideoWriter_fourcc(*"mp4v"),
+            fps,
+            (width, height),
+        )  # type: ignore[attr-defined]
+        if not annotated_writer.isOpened():
+            cap.release()
+            raise RuntimeError(f"Cannot create annotated video {annotated_output}")
     while True:
         ok, frame = cap.read()
         if not ok:
@@ -138,6 +162,7 @@ def process_video(db: Session, organization_id: int, camera: Camera, zone: Camer
                 elif abs(dy) > 8:
                     direction = "south" if dy > 0 else "north"
             confirmed = track.hits >= 3
+            event_emitted = False
             cv2.putText(overlay, f"T{track.track_id} {direction}", (x, max(20, y - 8)), cv2.FONT_HERSHEY_SIMPLEX, 0.50, color, 2)
             if inside and confirmed:
                 entered = track.zone_entered_at.setdefault(zone.id, timestamp)
@@ -174,11 +199,44 @@ def process_video(db: Session, organization_id: int, camera: Camera, zone: Camer
                     )
                     track.emitted_at[zone.id] = timestamp
                     events += 1
+                    event_emitted = True
             else:
                 track.zone_entered_at.pop(zone.id, None)
+            if trace_output is not None:
+                trace_rows.append(
+                    {
+                        "frame": processed,
+                        "timestamp_seconds": round(timestamp, 3),
+                        "track_id": track.track_id,
+                        "x": x,
+                        "y": y,
+                        "width": w,
+                        "height": h,
+                        "centroid_x": track.centroid[0],
+                        "centroid_y": track.centroid[1],
+                        "inside_zone": inside,
+                        "confirmed": confirmed,
+                        "direction": direction,
+                        "event_emitted": event_emitted,
+                    }
+                )
+        if annotated_writer is not None:
+            annotated_writer.write(overlay)
         if processed % 10 == 0 or events:
             cv2.imwrite(str(latest_path), overlay)
     cap.release()
+    if annotated_writer is not None:
+        annotated_writer.release()
+    if trace_output is not None:
+        trace_output.parent.mkdir(parents=True, exist_ok=True)
+        with trace_output.open("w", newline="", encoding="utf-8") as handle:
+            fields = [
+                "frame", "timestamp_seconds", "track_id", "x", "y", "width", "height",
+                "centroid_x", "centroid_y", "inside_zone", "confirmed", "direction", "event_emitted",
+            ]
+            writer = csv.DictWriter(handle, fieldnames=fields)
+            writer.writeheader()
+            writer.writerows(trace_rows)
     elapsed = time.perf_counter() - started
     camera.status = "online"
     camera.last_frame_at = datetime.now(UTC)
@@ -190,6 +248,9 @@ def process_video(db: Session, organization_id: int, camera: Camera, zone: Camer
         "events_created": events,
         "processing_fps": round(processed / elapsed, 2) if elapsed else 0,
         "latest_annotated_frame": str(latest_path.relative_to(ROOT)),
+        "annotated_output": str(annotated_output) if annotated_output else None,
+        "trace_output": str(trace_output) if trace_output else None,
+        "tracked_rows": len(trace_rows),
     }
 
 
