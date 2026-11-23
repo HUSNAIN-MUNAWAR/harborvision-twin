@@ -8,6 +8,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import Any, cast
 
 import cv2
 import numpy as np
@@ -71,7 +72,7 @@ class CentroidTracker:
 
 def generate_sample_video(path: Path, width: int = 960, height: int = 540, frames: int = 150, fps: int = 15) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
-    writer = cv2.VideoWriter(str(path), cv2.VideoWriter_fourcc(*"mp4v"), fps, (width, height))  # type: ignore[attr-defined]
+    writer = cv2.VideoWriter(str(path), cast(Any, cv2).VideoWriter_fourcc(*"mp4v"), fps, (width, height))
     for index in range(frames):
         frame = np.full((height, width, 3), (18, 32, 44), dtype=np.uint8)
         cv2.rectangle(frame, (80, 80), (880, 460), (45, 62, 72), 2)
@@ -119,7 +120,7 @@ def process_video(
         height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         annotated_writer = cv2.VideoWriter(
             str(annotated_output),
-            getattr(cv2, "VideoWriter_fourcc")(*"mp4v"),
+            cast(Any, cv2).VideoWriter_fourcc(*"mp4v"),
             fps,
             (width, height),
         )
