@@ -119,10 +119,10 @@ def process_video(
         height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         annotated_writer = cv2.VideoWriter(
             str(annotated_output),
-            cv2.VideoWriter_fourcc(*"mp4v"),
+            getattr(cv2, "VideoWriter_fourcc")(*"mp4v"),
             fps,
             (width, height),
-        )  # type: ignore[attr-defined]
+        )
         if not annotated_writer.isOpened():
             cap.release()
             raise RuntimeError(f"Cannot create annotated video {annotated_output}")
