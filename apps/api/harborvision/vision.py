@@ -231,8 +231,19 @@ def process_video(
         trace_output.parent.mkdir(parents=True, exist_ok=True)
         with trace_output.open("w", newline="", encoding="utf-8") as handle:
             fields = [
-                "frame", "timestamp_seconds", "track_id", "x", "y", "width", "height",
-                "centroid_x", "centroid_y", "inside_zone", "confirmed", "direction", "event_emitted",
+                "frame",
+                "timestamp_seconds",
+                "track_id",
+                "x",
+                "y",
+                "width",
+                "height",
+                "centroid_x",
+                "centroid_y",
+                "inside_zone",
+                "confirmed",
+                "direction",
+                "event_emitted",
             ]
             writer = csv.DictWriter(handle, fieldnames=fields)
             writer.writeheader()
