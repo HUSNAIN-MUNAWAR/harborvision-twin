@@ -70,9 +70,17 @@ class CentroidTracker:
         return list(self.tracks.values())
 
 
+def _write_image(path: Path, image: np.ndarray) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if not cv2.imwrite(str(path), image):
+        raise RuntimeError(f"OpenCV could not write evidence image: {path}")
+
+
 def generate_sample_video(path: Path, width: int = 960, height: int = 540, frames: int = 150, fps: int = 15) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     writer = cv2.VideoWriter(str(path), cast(Any, cv2).VideoWriter_fourcc(*"mp4v"), fps, (width, height))
+    if not writer.isOpened():
+        raise RuntimeError(f"Cannot create sample video {path}")
     for index in range(frames):
         frame = np.full((height, width, 3), (18, 32, 44), dtype=np.uint8)
         cv2.rectangle(frame, (80, 80), (880, 460), (45, 62, 72), 2)
@@ -170,7 +178,7 @@ def process_video(
                 last_emitted = track.emitted_at.get(zone.id, -10_000)
                 if timestamp - entered >= zone.dwell_seconds and timestamp - last_emitted >= zone.cooldown_seconds:
                     evidence_path = evidence_dir / f"intrusion-{camera.code}-{processed:05d}.jpg"
-                    cv2.imwrite(str(evidence_path), overlay)
+                    _write_image(evidence_path, overlay)
                     db.add(
                         SafetyEvent(
                             organization_id=organization_id,
@@ -224,7 +232,7 @@ def process_video(
         if annotated_writer is not None:
             annotated_writer.write(overlay)
         if processed % 10 == 0 or events:
-            cv2.imwrite(str(latest_path), overlay)
+            _write_image(latest_path, overlay)
     cap.release()
     if annotated_writer is not None:
         annotated_writer.release()
@@ -316,8 +324,8 @@ def process_ocr(db: Session, organization_id: int, image_path: Path) -> dict:
     stem = f"ocr-{int(time.time() * 1000)}"
     crop_path = ocr_dir / f"{stem}-crop.png"
     enhanced_path = ocr_dir / f"{stem}-enhanced.png"
-    cv2.imwrite(str(crop_path), roi)
-    cv2.imwrite(str(enhanced_path), processed)
+    _write_image(crop_path, roi)
+    _write_image(enhanced_path, processed)
     config = "--oem 3 --psm 7 -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     data = pytesseract.image_to_data(processed, config=config, output_type=pytesseract.Output.DICT)
     tokens = [token for token in data.get("text", []) if token.strip()]
